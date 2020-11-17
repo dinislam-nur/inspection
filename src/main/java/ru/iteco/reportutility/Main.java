@@ -19,6 +19,8 @@ public class Main {
 
     private static final String TAB = "\t";
 
+    // //opt/git/iteco/dp/inspection/src/main/resources/table.txt -withData -weightSum -costSum
+    // //opt/git/iteco/dp/inspection/src/main/resources/table.csv -withData -weightSum -costSum
     public static void main(String[] args) {
         ReportService service;
         try {
