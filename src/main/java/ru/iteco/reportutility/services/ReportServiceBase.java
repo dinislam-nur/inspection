@@ -40,6 +40,7 @@ public abstract class ReportServiceBase implements ReportService {
         return dataTransformer.transformData(data);
     }
 
+    //Шаблонный метод
     protected abstract DataRow[] getDataRows(String text);
 
     private ReportConfig parseConfig() {

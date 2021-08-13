@@ -19,20 +19,22 @@ public class Main {
 
     private static final String TAB = "\t";
 
-    // //opt/git/iteco/dp/inspection/src/main/resources/table.txt -withData -weightSum -costSum
-    // //opt/git/iteco/dp/inspection/src/main/resources/table.csv -withData -weightSum -costSum
+    // C:\Users\dinis\IdeaProjects\DesignPatterns\inspection\src\main\resources\table.txt -withData -weightSum -costSum
+    // C:\Users\dinis\IdeaProjects\DesignPatterns\inspection\src\main\resources\table.csv -withData -weightSum -costSum
     public static void main(String[] args) {
         ReportService service;
         try {
             System.out.println("");
             System.out.println("Enter the data for the report.");
             var input = new Scanner(System.in);
+            // Неинформативное название переменной
             var str = input.nextLine();
             System.out.println(str);
+            // Неинформативное название переменной
             var array = str.split(" ");
 
             service = getReportService(array);
-            var report = service.createReport();
+            var report = service.createReport(); //Фабричный метод
             printReport(report);
         } catch (Exception e) {
             System.out.println(e);

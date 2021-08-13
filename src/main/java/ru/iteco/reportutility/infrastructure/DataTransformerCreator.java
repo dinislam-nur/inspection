@@ -17,6 +17,7 @@ public class DataTransformerCreator {
     public static DataTransformer createTransformer(ReportConfig config) {
         DataTransformer service = new ConfigDataTransformer(config);
 
+        //Декоратор
         if (config.isWithData()) {
             service = new WithDataReportTransformer(service);
         }
