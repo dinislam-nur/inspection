@@ -12,23 +12,35 @@ import java.math.BigDecimal;
  *
  * @author Ilya_Sukhachev
  */
-public class CostSumReportTransformer extends ReportServiceTransformerBase {
+public class CostSumReportTransformer extends BaseSumReportServiceTransformer {
 
     public CostSumReportTransformer(DataTransformer dataTransformer) {
         super(dataTransformer);
     }
 
     @Override
-    public Report transformData(DataRow[] data) {
-        var report = dataTransformer.transformData(data);
-
-        var value = new BigDecimal(0);
-        for (var element : data) {
-            var result = element.getCount().multiply(element.getCost());
-            value = value.add(result);
-        }
-        report.getRows().add(new ReportRow("Суммарная стоимость", value));
-
-        return report;
+    protected BigDecimal getValue(DataRow element) {
+        return element.getCost();
     }
+
+    @Override
+    protected String getName() {
+        return "Суммарная стоимость";
+    }
+
+//    @Override
+//    public Report transformData(DataRow[] data) {
+//        var report = dataTransformer.transformData(data);
+//
+//        //Огромное количество повторяющегося кода
+//        //TODO вынести в абстрактный класс с использованием Шаблонного метода
+//        var value = new BigDecimal(0);
+//        for (var element : data) {
+//            var result = element.getCount().multiply(element.getCost());
+//            value = value.add(result);
+//        }
+//        report.getRows().add(new ReportRow("Суммарная стоимость", value));
+//
+//        return report;
+//    }
 }

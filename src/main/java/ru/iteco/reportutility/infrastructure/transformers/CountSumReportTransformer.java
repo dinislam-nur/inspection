@@ -12,23 +12,33 @@ import java.math.BigDecimal;
  *
  * @author Ilya_Sukhachev
  */
-public class CountSumReportTransformer extends ReportServiceTransformerBase {
+public class CountSumReportTransformer extends BaseSumReportServiceTransformer {
 
     public CountSumReportTransformer(DataTransformer dataTransformer) {
         super(dataTransformer);
     }
 
     @Override
-    public Report transformData(DataRow[] data) {
-        var report = dataTransformer.transformData(data);
-
-        var value = new BigDecimal(0);
-        for (var element : data) {
-            var result = element.getCount();
-            value = value.add(result);
-        }
-        report.getRows().add(new ReportRow("Суммарное количество", value));
-
-        return report;
+    protected BigDecimal getValue(DataRow element) {
+        return BigDecimal.ONE;
     }
+
+    @Override
+    protected String getName() {
+        return "Суммарное количество";
+    }
+
+//    @Override
+//    public Report transformData(DataRow[] data) {
+//        var report = dataTransformer.transformData(data);
+//
+//        var value = new BigDecimal(0);
+//        for (var element : data) {
+//            var result = element.getCount();
+//            value = value.add(result);
+//        }
+//        report.getRows().add(new ReportRow("Суммарное количество", value));
+//
+//        return report;
+//    }
 }

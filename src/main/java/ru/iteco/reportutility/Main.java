@@ -21,6 +21,7 @@ public class Main {
 
     // C:\Users\dinis\IdeaProjects\DesignPatterns\inspection\src\main\resources\table.txt -withData -weightSum -costSum
     // C:\Users\dinis\IdeaProjects\DesignPatterns\inspection\src\main\resources\table.csv -withData -weightSum -costSum
+    // C:\Users\dinis\IdeaProjects\DesignPatterns\inspection\src\main\resources\table.csv -withData -weightSum -costSum -withTotalVolume -withTotalWeight
     public static void main(String[] args) {
         ReportService service;
         try {
@@ -33,6 +34,8 @@ public class Main {
             // Неинформативное название переменной
             var array = str.split(" ");
 
+            //Проблема в добавлении огромного числа расширения файлов.
+            //TODO Фасад
             service = getReportService(array);
             var report = service.createReport(); //Фабричный метод
             printReport(report);
@@ -88,7 +91,7 @@ public class Main {
         }
 
         if (report.getRows() != null && report.getRows().size() != 0) {
-            System.out.println("Итого:");
+            System.out.println("Summary:");
             for (ReportRow reportRow : report.getRows()) {
                 System.out.println(reportRow.getName() + TAB + reportRow.getValue());
             }

@@ -44,6 +44,10 @@ public abstract class ReportServiceBase implements ReportService {
     protected abstract DataRow[] getDataRows(String text);
 
     private ReportConfig parseConfig() {
+        //Проблема с большим конструктором. С добавлением новых агрегаций конструктор будет только расширяться
+        //Повторяющий код - Arrays.asList(args).contains()
+        //TODO Builder
+        //TODO вынести в отдельный метод Arrays.asList(args).contains()
         return new ReportConfig(Arrays.asList(args).contains("-withData"), Arrays.asList(args).contains("-withIndex"),
                 Arrays.asList(args).contains("-withTotalVolume"), Arrays.asList(args).contains("-withTotalWeight"),
                 Arrays.asList(args).contains("-volumeSum"), Arrays.asList(args).contains("-weightSum"),

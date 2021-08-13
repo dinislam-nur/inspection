@@ -15,6 +15,8 @@ public class DataRow {
     private BigDecimal volume;
     private BigDecimal weight;
 
+    //Громоздкий конструктор. При добавлении агрегирующих состояний будет только хуже.
+    //TODO Builder
     public DataRow(BigDecimal cost, BigDecimal count, String name, BigDecimal volume, BigDecimal weight) {
         this.cost = cost;
         this.count = count;

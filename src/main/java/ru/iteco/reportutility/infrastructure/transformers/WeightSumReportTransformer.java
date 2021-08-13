@@ -12,24 +12,34 @@ import java.math.BigDecimal;
  *
  * @author Ilya_Sukhachev
  */
-public class WeightSumReportTransformer extends ReportServiceTransformerBase {
+public class WeightSumReportTransformer extends BaseSumReportServiceTransformer {
 
     public WeightSumReportTransformer(DataTransformer dataTransformer) {
         super(dataTransformer);
     }
 
     @Override
-    public Report transformData(DataRow[] data) {
-        var report = dataTransformer.transformData(data);
-
-        var value = new BigDecimal(0);
-        for (var element : data) {
-            var result = element.getCount().multiply(element.getWeight());
-            value = value.add(result);
-        }
-
-        report.getRows().add(new ReportRow("Суммарный вес", value));
-
-        return report;
+    protected BigDecimal getValue(DataRow element) {
+        return element.getWeight();
     }
+
+    @Override
+    protected String getName() {
+        return "Суммарный вес";
+    }
+
+//    @Override
+//    public Report transformData(DataRow[] data) {
+//        var report = dataTransformer.transformData(data);
+//
+//        var value = new BigDecimal(0);
+//        for (var element : data) {
+//            var result = element.getCount().multiply(element.getWeight());
+//            value = value.add(result);
+//        }
+//
+//        report.getRows().add(new ReportRow("Суммарный вес", value));
+//
+//        return report;
+//    }
 }
