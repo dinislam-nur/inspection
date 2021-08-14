@@ -23,23 +23,16 @@ public abstract class ReportServiceBase implements ReportService {
     }
 
     @Override
-    public Report createReport() {
+    public Report createReport() throws IOException {
 //        var config = parseConfig();
         var dataTransformer = DataTransformerCreator.createTransformer(config);
 
-        String text = null;
-        try {
-            text = Files.readString(Paths.get(config.get(0)));
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
-        var data = getDataRows(text);
+        var data = getDataRows(Files.readString(Paths.get(config.get(0))));
         return dataTransformer.transformData(data);
     }
 
     //Шаблонный метод
-    protected abstract DataRow[] getDataRows(String text);
+    protected abstract DataRow[] getDataRows(String text) throws IOException;
 
     //Вынести в отдельный утилитарный метод
 //    private ReportConfig parseConfig() {

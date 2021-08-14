@@ -26,19 +26,15 @@ public class CsvReportService extends ReportServiceBase {
     }
 
     @Override
-    protected DataRow[] getDataRows(String text) {
+    protected DataRow[] getDataRows(String text) throws IOException {
         //Промежуточный список, который форматируем в массив
 //        var dataRows = new ArrayList<>();
+        //NPE text.substring
         text = text.substring(text.indexOf("\n") + 1);
         var in = new StringReader(text);
         CSVParser parser;
-        List<CSVRecord> list = emptyList();
-        try {
-            parser = new CSVParser(in, CSVFormat.EXCEL);
-            list = parser.getRecords();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+        parser = new CSVParser(in, CSVFormat.EXCEL);
+        List<CSVRecord> list = parser.getRecords();
 
         DataRow[] result = null;
         if (list.size() > 0) {

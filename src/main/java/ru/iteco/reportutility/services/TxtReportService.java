@@ -2,6 +2,7 @@ package ru.iteco.reportutility.services;
 
 import ru.iteco.reportutility.models.DataRow;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +22,16 @@ public class TxtReportService extends ReportServiceBase {
     protected DataRow[] getDataRows(String text) {
         //Промежуточный список
         var dataRows = new ArrayList<>();
+        //NPE text.split
         var lines = text.split("\n");
 
         for (int i = 1; i < lines.length; i++) {
             var items = lines[i].split("\t");
+            //Название переменной. Переписать на стримы
             List<String> arrayList = new ArrayList<>();
-            for (int j = 0; j < items.length; j++) {
-                if (!items[j].isEmpty()) {
-                    arrayList.add(items[j]);
+            for (String item : items) {
+                if (!item.isEmpty()) {
+                    arrayList.add(item);
                 }
             }
             if (arrayList.size() >= 5) {

@@ -2,7 +2,7 @@ package ru.iteco.reportutility;
 
 import ru.iteco.reportutility.models.Report;
 import ru.iteco.reportutility.presenter.PresenterImpl;
-import ru.iteco.reportutility.services.ConsoleReportPrinter;
+import ru.iteco.reportutility.view.ConsoleViewer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +40,7 @@ public class Main {
             //прорисовку. Следует разделить функционал на классы по MVP
             final List<String> config = Arrays.asList(array);
             final Report report = new PresenterImpl(config).getReport();
-            new ConsoleReportPrinter(config).printReport(report);
+            new ConsoleViewer(config).printReport(report);
         } catch (Exception e) {
             System.out.println(e);
         }

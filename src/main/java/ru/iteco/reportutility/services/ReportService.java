@@ -2,6 +2,8 @@ package ru.iteco.reportutility.services;
 
 import ru.iteco.reportutility.models.Report;
 
+import java.io.IOException;
+
 /**
  * ReportService.
  *
@@ -9,5 +11,5 @@ import ru.iteco.reportutility.models.Report;
  */
 public interface ReportService {
 
-    Report createReport();
+    Report createReport() throws IOException;
 }

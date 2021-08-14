@@ -1,8 +1,8 @@
-package ru.iteco.reportutility.services;
+package ru.iteco.reportutility.view;
 
 import ru.iteco.reportutility.models.Report;
 
-public interface ReportPrinter {
+public interface Viewer {
 
     void printReport(Report report);
     

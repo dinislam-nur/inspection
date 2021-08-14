@@ -1,18 +1,20 @@
-package ru.iteco.reportutility.services;
+package ru.iteco.reportutility.view;
 
 import org.apache.commons.lang.StringUtils;
 import ru.iteco.reportutility.models.Report;
 import ru.iteco.reportutility.models.ReportRow;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
-public class ConsoleReportPrinter implements ReportPrinter {
+public class ConsoleViewer implements Viewer {
 
     private static final String TAB = "\t";
 
     private final List<String> config;
 
-    public ConsoleReportPrinter(List<String> config) {
+    public ConsoleViewer(List<String> config) {
         this.config = config;
     }
 
