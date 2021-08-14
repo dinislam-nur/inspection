@@ -1,28 +1,21 @@
-package ru.iteco.reportutility.facade;
+package ru.iteco.reportutility.presenter;
 
 import ru.iteco.reportutility.models.Report;
 import ru.iteco.reportutility.services.*;
 
 import java.util.List;
 
-public class ReportFacadeImpl implements ReportFacade {
+public class PresenterImpl implements Presenter {
 
     private final List<String> config;
-    private final ReportPrinter printer;
 
-    public ReportFacadeImpl(List<String> config, ReportPrinter printer) {
+    public PresenterImpl(List<String> config) {
         this.config = config;
-        this.printer = printer;
     }
 
     @Override
-    public void printReport() {
-        try {
-            final Report report = getReportService().createReport();
-            printer.printReport(report);
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
+    public Report getReport() throws Exception {
+        return getReportService().createReport();
     }
 
     private ReportService getReportService() throws Exception {

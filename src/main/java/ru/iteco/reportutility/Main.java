@@ -1,6 +1,7 @@
 package ru.iteco.reportutility;
 
-import ru.iteco.reportutility.facade.ReportFacadeImpl;
+import ru.iteco.reportutility.models.Report;
+import ru.iteco.reportutility.presenter.PresenterImpl;
 import ru.iteco.reportutility.services.ConsoleReportPrinter;
 
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-    private static final String TAB = "\t";
+//    private static final String TAB = "\t";
 
     // C:\Users\dinis\IdeaProjects\DesignPatterns\inspection\src\main\resources\table.txt -withData -weightSum -costSum
     // C:\Users\dinis\IdeaProjects\DesignPatterns\inspection\src\main\resources\table.csv -withData -weightSum -costSum
@@ -36,10 +37,10 @@ public class Main {
 //            var report = service.createReport(); //Фабричный метод
 //            printReport(report);
             //Класс main не должен быть отвественным за выбор сервиса, создания отчета и его
-            //прорисовку. Следует разделить функционал на классы и вывести в отдельный интерфейс
+            //прорисовку. Следует разделить функционал на классы по MVP
             final List<String> config = Arrays.asList(array);
-            var printer = new ConsoleReportPrinter(config);
-            new ReportFacadeImpl(config, printer).printReport();
+            final Report report = new PresenterImpl(config).getReport();
+            new ConsoleReportPrinter(config).printReport(report);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -63,6 +64,7 @@ public class Main {
 //        throw new Exception("this extension not supported");
 //    }
 
+    //Если появится требование выводить отчет не на консоль, а в файл, потребуется добалять новый метод.
     //TODO вынести в отдельный интерфейс рисующий отчеты
 //    private static void printReport(Report report) {
 //        if (report.getConfig().isWithData() && report.getData() != null && report.getData().length != 0) {

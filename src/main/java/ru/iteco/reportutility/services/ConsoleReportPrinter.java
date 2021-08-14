@@ -19,6 +19,8 @@ public class ConsoleReportPrinter implements ReportPrinter {
     @Override
     public void printReport(Report report) {
         if (report.getData() != null && report.getData().length != 0) {
+            //Жесткая связанность с элементами заколовков. Сложно расширять и управлять выводом столбцов
+            //TODO Builder заголовка по параметрам
             var headerRow = "Наименование\tОбъём упаковки\tМасса упаковки\tСтоимость\tКоличество";
 
             if (config.contains("-withIndex")) {
@@ -32,14 +34,19 @@ public class ConsoleReportPrinter implements ReportPrinter {
             }
 
             System.out.println(headerRow);
-            for (int i = 0; i < report.getData().length; i++) {
-                var dataRow = report.getData()[i];
-                var str = (i + 1 + TAB + dataRow.getName() + ((i != 0) ? StringUtils.repeat(TAB, 2) : TAB)
-                        + dataRow.getVolume() + StringUtils.repeat(TAB, 4) + dataRow.getWeight()
-                        + StringUtils.repeat(TAB, 4) + dataRow.getCost() + StringUtils.repeat(TAB, 3)
-                        + dataRow.getCount() + StringUtils.repeat(TAB, 3) + dataRow.getVolume().multiply(dataRow.getCount())
-                        + StringUtils.repeat(TAB, 2) + dataRow.getWeight().multiply(dataRow.getCount()));
-                System.out.println(str);
+            //NPE report.getData().length
+            if (report.getData() != null) {
+                for (int i = 0; i < report.getData().length; i++) {
+                    var dataRow = report.getData()[i];
+                    //Конкантенация строк.
+                    //TODO StringBuilder
+                    var str = (i + 1 + TAB + dataRow.getName() + ((i != 0) ? StringUtils.repeat(TAB, 2) : TAB)
+                            + dataRow.getVolume() + StringUtils.repeat(TAB, 4) + dataRow.getWeight()
+                            + StringUtils.repeat(TAB, 4) + dataRow.getCost() + StringUtils.repeat(TAB, 3)
+                            + dataRow.getCount() + StringUtils.repeat(TAB, 3) + dataRow.getVolume().multiply(dataRow.getCount())
+                            + StringUtils.repeat(TAB, 2) + dataRow.getWeight().multiply(dataRow.getCount()));
+                    System.out.println(str);
+                }
             }
 
             System.out.println();
