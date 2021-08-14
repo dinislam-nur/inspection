@@ -13,12 +13,13 @@ import java.util.List;
  */
 public class TxtReportService extends ReportServiceBase {
 
-    public TxtReportService(String[] args) {
-        super(args);
+    public TxtReportService(List<String> config) {
+        super(config);
     }
 
     @Override
     protected DataRow[] getDataRows(String text) {
+        //Промежуточный список
         var dataRows = new ArrayList<>();
         var lines = text.split("\n");
 

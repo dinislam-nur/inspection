@@ -13,14 +13,15 @@ import java.util.ArrayList;
  */
 public class ConfigDataTransformer implements DataTransformer {
 
-    private final ReportConfig config;
+//    private final ReportConfig config;
 
-    public ConfigDataTransformer(ReportConfig config) {
-        this.config = config;
-    }
+//    public ConfigDataTransformer(ReportConfig config) {
+//        this.config = config;
+//    }
 
     @Override
     public Report transformData(DataRow[] data) {
-        return new Report(config, new DataRow[0], new ArrayList<>());
+//        return new Report(config, new DataRow[0], new ArrayList<>());
+        return new Report(new DataRow[0], new ArrayList<>());
     }
 }

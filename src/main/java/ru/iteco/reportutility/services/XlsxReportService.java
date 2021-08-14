@@ -2,14 +2,17 @@ package ru.iteco.reportutility.services;
 
 import ru.iteco.reportutility.models.DataRow;
 
+import java.util.List;
+
 /**
  * XlsxReportService.
  *
  * @author Ilya_Sukhachev
  */
 public class XlsxReportService extends ReportServiceBase {
-    public XlsxReportService(String[] args) {
-        super(args);
+
+    public XlsxReportService(List<String> config) {
+        super(config);
     }
 
     @Override

@@ -5,6 +5,8 @@ package ru.iteco.reportutility.models;
  *
  * @author Ilya_Sukhachev
  */
+//Решил отказаться от класса, потому что не вижу в нем необходимости
+//TODO разные типы конфигов для заголовков и итоговой отчетности
 public class ReportConfig {
 
     private boolean withData;
@@ -13,11 +15,16 @@ public class ReportConfig {
     private boolean withTotalVolume;
     private boolean withTotalWeight;
 
+    //Вынести агрегирующие состояния в отдельный конфиг,
+    //чтобы разделить несвязанные состояния, которые используются
+    //отдельно от друг друга
     private boolean volumeSum;
     private boolean weightSum;
     private boolean costSum;
     private boolean countSum;
 
+    //Слишком громоздкий конструктор. Можно написать директора, который будет принимать список параметров и из
+    //него билдить конфиг
     public ReportConfig(boolean withData, boolean withIndex, boolean withTotalVolume, boolean withTotalWeight, boolean volumeSum,
                         boolean weightSum, boolean costSum, boolean countSum) {
         this.withData = withData;

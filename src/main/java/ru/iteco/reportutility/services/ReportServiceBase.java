@@ -3,12 +3,11 @@ package ru.iteco.reportutility.services;
 import ru.iteco.reportutility.infrastructure.DataTransformerCreator;
 import ru.iteco.reportutility.models.DataRow;
 import ru.iteco.reportutility.models.Report;
-import ru.iteco.reportutility.models.ReportConfig;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * ReportServiceBase.
@@ -17,21 +16,20 @@ import java.util.Arrays;
  */
 public abstract class ReportServiceBase implements ReportService {
 
-    private final String[] args;
+    private final List<String> config;
 
-    protected ReportServiceBase(String[] args) {
-        this.args = args;
+    protected ReportServiceBase(List<String> config) {
+        this.config = config;
     }
 
     @Override
     public Report createReport() {
-        var config = parseConfig();
+//        var config = parseConfig();
         var dataTransformer = DataTransformerCreator.createTransformer(config);
 
-        var fileName = args[0];
         String text = null;
         try {
-            text = Files.readString(Paths.get(fileName));
+            text = Files.readString(Paths.get(config.get(0)));
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -43,15 +41,15 @@ public abstract class ReportServiceBase implements ReportService {
     //Шаблонный метод
     protected abstract DataRow[] getDataRows(String text);
 
-    private ReportConfig parseConfig() {
-        //Проблема с большим конструктором. С добавлением новых агрегаций конструктор будет только расширяться
-        //Повторяющий код - Arrays.asList(args).contains()
-        //TODO Builder
-        //TODO вынести в отдельный метод Arrays.asList(args).contains()
-        return new ReportConfig(Arrays.asList(args).contains("-withData"), Arrays.asList(args).contains("-withIndex"),
-                Arrays.asList(args).contains("-withTotalVolume"), Arrays.asList(args).contains("-withTotalWeight"),
-                Arrays.asList(args).contains("-volumeSum"), Arrays.asList(args).contains("-weightSum"),
-                Arrays.asList(args).contains("-costSum"), Arrays.asList(args).contains("-countSum"));
-    }
+    //Вынести в отдельный утилитарный метод
+//    private ReportConfig parseConfig() {
+//        //Проблема с большим конструктором. С добавлением новых агрегаций конструктор будет только расширяться
+//        //Повторяющий код - Arrays.asList(args).contains() и порождение схожих бесполезных обьектов
+//        //TODO Builder
+//        return new ReportConfig(Arrays.asList(args).contains("-withData"), Arrays.asList(args).contains("-withIndex"),
+//                Arrays.asList(args).contains("-withTotalVolume"), Arrays.asList(args).contains("-withTotalWeight"),
+//                Arrays.asList(args).contains("-volumeSum"), Arrays.asList(args).contains("-weightSum"),
+//                Arrays.asList(args).contains("-costSum"), Arrays.asList(args).contains("-countSum"));
+//    }
 
 }

@@ -1,13 +1,10 @@
 package ru.iteco.reportutility;
 
-import org.apache.commons.lang.StringUtils;
-import ru.iteco.reportutility.models.Report;
-import ru.iteco.reportutility.models.ReportRow;
-import ru.iteco.reportutility.services.CsvReportService;
-import ru.iteco.reportutility.services.ReportService;
-import ru.iteco.reportutility.services.TxtReportService;
-import ru.iteco.reportutility.services.XlsxReportService;
+import ru.iteco.reportutility.facade.ReportFacadeImpl;
+import ru.iteco.reportutility.services.ConsoleReportPrinter;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -23,7 +20,7 @@ public class Main {
     // C:\Users\dinis\IdeaProjects\DesignPatterns\inspection\src\main\resources\table.csv -withData -weightSum -costSum
     // C:\Users\dinis\IdeaProjects\DesignPatterns\inspection\src\main\resources\table.csv -withData -weightSum -costSum -withTotalVolume -withTotalWeight
     public static void main(String[] args) {
-        ReportService service;
+//        ReportService service;
         try {
             System.out.println("");
             System.out.println("Enter the data for the report.");
@@ -35,68 +32,73 @@ public class Main {
             var array = str.split(" ");
 
             //Проблема в добавлении огромного числа расширения файлов.
-            //TODO Фасад
-            service = getReportService(array);
-            var report = service.createReport(); //Фабричный метод
-            printReport(report);
+//            service = getReportService(array);
+//            var report = service.createReport(); //Фабричный метод
+//            printReport(report);
+            //Класс main не должен быть отвественным за выбор сервиса, создания отчета и его
+            //прорисовку. Следует разделить функционал на классы и вывести в отдельный интерфейс
+            final List<String> config = Arrays.asList(array);
+            var printer = new ConsoleReportPrinter(config);
+            new ReportFacadeImpl(config, printer).printReport();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    private static ReportService getReportService(String[] args) throws Exception {
-        var filename = args[0];
+//    private static ReportService getReportService(String[] args) throws Exception {
+//        var filename = args[0];
+//
+//        if (filename.endsWith(".txt")) {
+//            return new TxtReportService(args);
+//        }
+//
+//        if (filename.endsWith(".csv")) {
+//            return new CsvReportService(args);
+//        }
+//
+//        if (filename.endsWith(".xlsx")) {
+//            return new XlsxReportService(args);
+//        }
+//
+//        throw new Exception("this extension not supported");
+//    }
 
-        if (filename.endsWith(".txt")) {
-            return new TxtReportService(args);
-        }
-
-        if (filename.endsWith(".csv")) {
-            return new CsvReportService(args);
-        }
-
-        if (filename.endsWith(".xlsx")) {
-            return new XlsxReportService(args);
-        }
-
-        throw new Exception("this extension not supported");
-    }
-
-    private static void printReport(Report report) {
-        if (report.getConfig().isWithData() && report.getData() != null && report.getData().length != 0) {
-            var headerRow = "Наименование\tОбъём упаковки\tМасса упаковки\tСтоимость\tКоличество";
-
-            if (report.getConfig().isWithIndex()) {
-                headerRow = "№\t" + headerRow;
-            }
-            if (report.getConfig().isWithTotalVolume()) {
-                headerRow = headerRow + "\tСуммарный объём";
-            }
-            if (report.getConfig().isWithTotalWeight()) {
-                headerRow = headerRow + "\tСуммарный вес";
-            }
-
-            System.out.println(headerRow);
-            for (int i = 0; i < report.getData().length; i++) {
-                var dataRow = report.getData()[i];
-                var str = (i + 1 + TAB + dataRow.getName() + ((i != 0) ? StringUtils.repeat(TAB, 2) : TAB)
-                        + dataRow.getVolume() + StringUtils.repeat(TAB, 4) + dataRow.getWeight()
-                        + StringUtils.repeat(TAB, 4) + dataRow.getCost() + StringUtils.repeat(TAB, 3)
-                        + dataRow.getCount() + StringUtils.repeat(TAB, 3) + dataRow.getVolume().multiply(dataRow.getCount())
-                        + StringUtils.repeat(TAB, 2) + dataRow.getWeight().multiply(dataRow.getCount()));
-                System.out.println(str);
-            }
-
-            System.out.println();
-        }
-
-        if (report.getRows() != null && report.getRows().size() != 0) {
-            System.out.println("Summary:");
-            for (ReportRow reportRow : report.getRows()) {
-                System.out.println(reportRow.getName() + TAB + reportRow.getValue());
-            }
-        }
-    }
+    //TODO вынести в отдельный интерфейс рисующий отчеты
+//    private static void printReport(Report report) {
+//        if (report.getConfig().isWithData() && report.getData() != null && report.getData().length != 0) {
+//            var headerRow = "Наименование\tОбъём упаковки\tМасса упаковки\tСтоимость\tКоличество";
+//
+//            if (report.getConfig().isWithIndex()) {
+//                headerRow = "№\t" + headerRow;
+//            }
+//            if (report.getConfig().isWithTotalVolume()) {
+//                headerRow = headerRow + "\tСуммарный объём";
+//            }
+//            if (report.getConfig().isWithTotalWeight()) {
+//                headerRow = headerRow + "\tСуммарный вес";
+//            }
+//
+//            System.out.println(headerRow);
+//            for (int i = 0; i < report.getData().length; i++) {
+//                var dataRow = report.getData()[i];
+//                var str = (i + 1 + TAB + dataRow.getName() + ((i != 0) ? StringUtils.repeat(TAB, 2) : TAB)
+//                        + dataRow.getVolume() + StringUtils.repeat(TAB, 4) + dataRow.getWeight()
+//                        + StringUtils.repeat(TAB, 4) + dataRow.getCost() + StringUtils.repeat(TAB, 3)
+//                        + dataRow.getCount() + StringUtils.repeat(TAB, 3) + dataRow.getVolume().multiply(dataRow.getCount())
+//                        + StringUtils.repeat(TAB, 2) + dataRow.getWeight().multiply(dataRow.getCount()));
+//                System.out.println(str);
+//            }
+//
+//            System.out.println();
+//        }
+//
+//        if (report.getRows() != null && report.getRows().size() != 0) {
+//            System.out.println("Summary:");
+//            for (ReportRow reportRow : report.getRows()) {
+//                System.out.println(reportRow.getName() + TAB + reportRow.getValue());
+//            }
+//        }
+//    }
 
 
 }
